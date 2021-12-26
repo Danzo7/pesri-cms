@@ -13,17 +13,17 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>JSP - Hello World</title>
+    <title>Classroom - login</title>
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
 
 </head>
 <body>
 <div class="app">
-    <h1 class="text-warning">No idea?</h1>
+    <h1 class="text-warning">Classroom</h1>
 
 
     <div class="container w-50 p-5" style="background-color: #2C3964">
-        <a href="#" class="badge badge-info float-lg-right">Register</a>
+        <a href="register.jsp" class="badge badge-info float-lg-right">Register</a>
 
         <form>
         <div class="form-group">
