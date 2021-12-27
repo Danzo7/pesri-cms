@@ -12,6 +12,9 @@ public class Professor {
         this.password = password;
 
     }
+
+
+
     // the id is Auto_increment //
     public Professor( String fName, String lName, String email, String password  ) {
         this.fName = fName;
@@ -19,6 +22,13 @@ public class Professor {
         this.email = email;
         this.password = password;
 
+    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getfName() {
