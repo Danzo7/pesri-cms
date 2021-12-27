@@ -14,7 +14,6 @@ public class Professor {
     }
     // the id is Auto_increment //
     public Professor( String fName, String lName, String email, String password  ) {
-        this.id = id;
         this.fName = fName;
         this.lName = lName;
         this.email = email;
