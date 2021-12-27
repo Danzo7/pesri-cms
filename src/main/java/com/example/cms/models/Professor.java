@@ -2,7 +2,25 @@ package com.example.cms.models;
 
 public class Professor {
     private int id;
-    private String fName,lName,email ,password,date;
+    private String fName,lName,email ,password;
+
+    public Professor(int id, String fName, String lName, String email, String password  ) {
+        this.id = id;
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.password = password;
+
+    }
+    // the id is Auto_increment //
+    public Professor( String fName, String lName, String email, String password  ) {
+        this.id = id;
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.password = password;
+
+    }
 
     public String getfName() {
         return fName;
@@ -36,20 +54,6 @@ public class Professor {
         this.password = password;
     }
 
-    public String getDate() {
-        return date;
-    }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
 
-    public Professor(int id, String fName, String lName, String email, String password, String date) {
-        this.id = id;
-        this.fName = fName;
-        this.lName = lName;
-        this.email = email;
-        this.password = password;
-        this.date = date;
-    }
 }
