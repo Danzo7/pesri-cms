@@ -3,10 +3,9 @@ package com.example.cms.dao;
 import com.example.cms.models.Professor;
 import com.example.cms.models.Student;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDao {
     private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
@@ -19,7 +18,7 @@ public class StudentDao {
             " (?, ?, ? , ?);";
 
     private static final String SELECT_STUDENT_BY_ID = "select fName,lName,age from student where id =?";
-    private static final String SELECT_ALL_STUDENTS_OF_PROFESSOR = "select student.fName,student.lName,student.age " +
+    private static final String SELECT_ALL_STUDENTS_OF_PROFESSOR = "select * " +
             "from student,professor" +
             " where student.profID = professor.? ";
 
@@ -59,10 +58,10 @@ public class StudentDao {
         statement.executeUpdate();
     }
     // update Student related to a Professor
-    public boolean updateUser(Student student,Professor professor) throws SQLException {
+    public boolean updateStudent(Student student,Professor professor) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_STUDENT_OF_PROFESSOR);) {
+             PreparedStatement statement = connection.prepareStatement(UPDATE_STUDENT_OF_PROFESSOR)) {
              statement.setString(1, student.getfName());
             statement.setString(2, student.getfName());
             statement.setInt(3, student.getAge());
@@ -73,4 +72,36 @@ public class StudentDao {
         }
         return rowUpdated;
     }
+    // Delete Student
+    public boolean deleteStudent(Student student,Professor professor) throws SQLException {
+        boolean rowDeleted;
+        Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_STUDENT_OF_PROFESSOR);
+            statement.setInt(1, professor.getId());
+            statement.setInt(2, student.getId());
+            rowDeleted = statement.executeUpdate() > 0;
+        return rowDeleted;
+    }
+
+    // get the list of students of professor
+    public List<Student> selecteAllStudents (Professor professor) throws SQLException {
+        List < Student > studentList = new ArrayList< >();
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT_ALL_STUDENTS_OF_PROFESSOR);
+        statement.setInt(1,professor.getId());
+        ResultSet resultSet =statement.executeQuery();
+        while (resultSet.next()){
+            studentList.add(new Student(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("age"),
+                    resultSet.getInt("profID"),
+                    resultSet.getString("fName"),
+                    resultSet.getString("lName")
+                    ));
+        }
+        return  studentList;
+    }
+
+
+
 }

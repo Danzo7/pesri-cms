@@ -2,10 +2,7 @@ package com.example.cms.dao;
 
 import com.example.cms.models.Professor;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ProfessorDao {
     private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
@@ -51,9 +48,30 @@ public class ProfessorDao {
         statement.executeUpdate();
     }
 
-  /*  public void selectAddedProfessor (Professor professor) throws SQLException {
+    public Boolean CheckRegistedProfessor (Professor professor) throws SQLException {
         Connection cnx = getConnection();
-        PreparedStatement statement =cnx.prepareStatement(INSERT_PROFESSOR_WiTHOUT_ID);
-    }  */
+        PreparedStatement statement =cnx.prepareStatement(SELECT_PROFESSOR_BY_EMAIL_PASSWORD);
+        statement.setString(1,professor.getEmail());
+        statement.setString(2,professor.getPassword());
+        ResultSet resultSet =statement.executeQuery();
+        return resultSet.next();
+    }
+
+    public Professor  getProfessorInfoFromDB(String email,String password) throws SQLException {
+        Professor professor =null ;
+        Connection cnx = getConnection();
+        PreparedStatement statement =cnx.prepareStatement(SELECT_PROFESSOR_BY_EMAIL_PASSWORD);
+        statement.setString(1,email);
+        statement.setString(2,password);
+        ResultSet resultSet =statement.executeQuery();
+        while (resultSet.next()){
+            professor =new Professor(resultSet.getInt("id"),resultSet.getString("fName"),
+                    resultSet.getString("lName"),resultSet.getString("email"),
+                    resultSet.getString("password"));
+        }
+        return professor;
+
+    }
+
 
 }
