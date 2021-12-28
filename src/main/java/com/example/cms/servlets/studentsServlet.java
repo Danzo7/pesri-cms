@@ -1,5 +1,7 @@
 package com.example.cms.servlets;
 
+import com.example.cms.dao.StudentDao;
+import com.example.cms.models.Professor;
 import com.example.cms.models.Student;
 
 import javax.servlet.*;
@@ -16,11 +18,13 @@ public class studentsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session=request.getSession(false);
-
-        if(session==null ||session.getAttribute("name")==null){
+        if(session==null ||session.getAttribute("current")==null){
             response.sendRedirect(request.getContextPath() + "/login");
         }
         else{
+            //TODO:get current professor from cookies.
+            //Professor p=new Professor(1,(Professor)session.getAttribute("name"),"catalonya","name");
+            request.setAttribute("prof",(Professor)session.getAttribute("current"));
             request.setAttribute("students",studentList);
             request.getRequestDispatcher("studentList.jsp").forward(request,response);
 

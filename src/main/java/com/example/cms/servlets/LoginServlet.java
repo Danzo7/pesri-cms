@@ -1,5 +1,7 @@
 package com.example.cms.servlets;
 
+import com.example.cms.models.Professor;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -12,7 +14,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String action =request.getServletPath();
         HttpSession session=request.getSession(false);
-        if(session==null ||session.getAttribute("name")==null){
+        if(session==null ||session.getAttribute("current")==null){
             request.getRequestDispatcher("login.jsp").forward(request,response);}
         else{
         response.sendRedirect(request.getContextPath() + "/students");
@@ -27,13 +29,18 @@ public class LoginServlet extends HttpServlet {
         String checked=request.getParameter("rememberCheck");
         if(password.equals("password")){
             HttpSession session=request.getSession();
-            session.setAttribute("name",email);
-            request.setAttribute("prof",email);
+            Professor p=new Professor(1,"moh","catalonya",email,password);
+            session.setAttribute("current",p);
+
+            //TODO:select professor.
+
 
             response.sendRedirect(request.getContextPath() + "/students");
         }
         else{
             request.setAttribute("error","true");
-            request.getRequestDispatcher("login.jsp").forward(request,response);}
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+
+        }
     }
 }

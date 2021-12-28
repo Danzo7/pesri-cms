@@ -1,4 +1,3 @@
-<jsp:useBean id="prof" scope="request" type="com.example.cms.models.Professor"/>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -12,44 +11,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <title>Classroom - Student list</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
+  <title>Classroom - login</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/styles/main.css">
 
 </head>
 <body>
 <div class="app">
- <h4>welcome ${prof.lName} ${prof.fName}</h4>
-  <div class="tables">
-  <button class="btn btn-warning" style="float:right">add...</button>
-
-  <table class="table  table-dark table-striped">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First name</th>
-      <th scope="col">Last name</th>
-      <th scope="col">mark</th>
-      <th scope="col">action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <jsp:useBean id="students" scope="request" type="java.util.List"/>
-    <c:forEach var="student" items="${students}" >
-      <tr>
-        <jsp:useBean id="student" type="com.example.cms.models.Student"/>
-        <th scope="row">${students.indexOf(student)}</th>
-        <td>${student.fName}</td>
-        <td>${student.lName}</td>
-        <td>${student.age}</td>
-        <td>
-          <button class="btn btn-secondary">edit...</button>
-
-        </td>
-      </tr>
-    </c:forEach>
-    </tbody>
-  </table>
-  </div>
+  <h1 class="text-warning">404 - Page not found</h1>
+  <a href="/">back to Home</a>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

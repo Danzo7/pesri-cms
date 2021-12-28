@@ -28,24 +28,24 @@
 
 
     <div class="container w-50 p-5" style="background-color: #2C3964">
-        <form action="insert" method="post">
+        <form method="post">
             <div class="form-group">
                 <label class="text-light" for="first-name">First name</label>
-                <input type="text" class="form-control" id="first-name" aria-describedby="first-name" placeholder="Enter your first name">
+                <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" placeholder="Enter your first name">
             </div>
             <div class="form-group">
                 <label class="text-light" for="last-name">Last name</label>
-                <input type="text" class="form-control" id="last-name" aria-describedby="first-name" placeholder="Enter your last name">
+                <input type="text" class="form-control" name="lName"  id="last-name" aria-describedby="first-name" placeholder="Enter your last name">
             </div>
 
             <div class="form-group">
                 <label class="text-light" for="emailInput">Email address</label>
-                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+                <input type="email" class="form-control" name="email"  id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
-                <label class="text-light" for="passwordInput">Password</label>
-                <input type="password" class="form-control " id="passwordInput" placeholder="Password">
+                <label class="text-light" for="passwordInput" >Password</label>
+                <input type="password" class="form-control " name="password"  id="passwordInput" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-secondary">Register</button>
         </form>
