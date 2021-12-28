@@ -15,7 +15,7 @@ public class ProfessorDao {
 
     private static final String INSERT_PROFESSOR_WiTH_ID = "INSERT INTO professor" + "  (id ,fName,lName,email,password) VALUES " +
             " ( ?, ?, ?, ? , ?);";
-    private static final String INSERT_PROFESSOR_WiTHOUT_ID = "INSERT INTO professor" + "  (fName,lName,email,password) VALUES " +
+    private static final String INSERT_PROFESSOR_WITHOUT_ID = "INSERT INTO professor" + "  (fName,lName,email,password) VALUES " +
             " (?, ?, ? , ?);";
 
     private static final String SELECT_PROFESSOR_BY_ID = "select fName,lName,email,password from professor where id =?";
@@ -34,10 +34,7 @@ public class ProfessorDao {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -46,7 +43,7 @@ public class ProfessorDao {
         // create new Professor
     public void  insertProfessor (Professor professor) throws SQLException {
         Connection cnx = getConnection();
-         PreparedStatement statement =cnx.prepareStatement(INSERT_PROFESSOR_WiTHOUT_ID);
+         PreparedStatement statement =cnx.prepareStatement(INSERT_PROFESSOR_WITHOUT_ID);
          statement.setString(1,professor.getfName());
         statement.setString(2,professor.getlName());
         statement.setString(3,professor.getEmail());

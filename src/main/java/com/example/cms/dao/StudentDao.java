@@ -15,7 +15,7 @@ public class StudentDao {
 
     private static final String INSERT_STUDENT_WiTH_ID = "INSERT INTO student" + "  (id ,fName,lName,age,profID) VALUES " +
             " ( ?, ?, ?, ? , ?);";
-    private static final String INSERT_STUDENT_WiTHOUT_ID = "INSERT INTO student" + "  (fName,lName,age,profID) VALUES " +
+    private static final String INSERT_STUDENT_WITHOUT_ID = "INSERT INTO student" + "  (fName,lName,age,profID) VALUES " +
             " (?, ?, ? , ?);";
 
     private static final String SELECT_STUDENT_BY_ID = "select fName,lName,age from student where id =?";
@@ -51,7 +51,7 @@ public class StudentDao {
     // create new Student related to a Professor
     public void  insertStudent (Student student) throws SQLException {
         Connection cnx = getConnection();
-        PreparedStatement statement =cnx.prepareStatement(INSERT_STUDENT_WiTHOUT_ID);
+        PreparedStatement statement =cnx.prepareStatement(INSERT_STUDENT_WITHOUT_ID);
         statement.setString(1,student.getfName());
         statement.setString(2,student.getlName());
         statement.setInt(3,student.getAge());

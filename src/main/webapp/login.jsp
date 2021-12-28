@@ -2,19 +2,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Classroom - login</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/styles/main.css">
 
 </head>
 <body>
@@ -27,17 +24,17 @@
 
         <form>
         <div class="form-group">
-            <label class="text-light" for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <label class="text-light" for="emailInput">Email address</label>
+            <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
-            <label class="text-light" for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control " id="exampleInputPassword1" placeholder="Password">
+            <label class="text-light" for="passwordInput">Password</label>
+            <input type="password" class="form-control " id="passwordInput" placeholder="Password">
         </div>
         <div class=" form-group form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class=" form-check-label text-light" for="exampleCheck1">remember me</label>
+            <input type="checkbox" class="form-check-input" id="rememberCheck">
+            <label class=" form-check-label text-light" for="rememberCheck">remember me</label>
         </div>
         <button type="submit" class="btn btn-primary">login</button>
     </form>
