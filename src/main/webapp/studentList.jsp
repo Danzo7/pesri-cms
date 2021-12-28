@@ -32,15 +32,15 @@
         <form method="post" id="addStudentForm">
           <div class="form-group">
             <label  for="first-name">First name</label>
-            <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" placeholder="Enter the first name">
+            <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" placeholder="Enter the first name"  required >
           </div>
           <div class="form-group">
             <label  for="last-name">Last name</label>
-            <input type="text" class="form-control" name="lName"  id="last-name" aria-describedby="first-name" placeholder="Enter the last name">
+            <input  type="text" class="form-control" name="lName"  id="last-name" aria-describedby="first-name" placeholder="Enter the last name" required  >
           </div>
           <div class="form-group">
-            <label  for="age">Last name</label>
-            <input type="number" class="form-control" name="age"  id="age" aria-describedby="age" placeholder="Enter the age">
+            <label  for="age">Age</label>
+            <input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" placeholder="Enter the age"  required >
           </div>
         </form>
       </div>

@@ -18,6 +18,8 @@ public class StudentDao {
             " (?, ?, ? , ?);";
 
     private static final String SELECT_STUDENT_BY_ID = "select fName,lName,age from student where id =?";
+    private static final String SELECT_STUDENT_BY_All = "select * from student where " +
+            "fName =? AND lName=? AND age=? AND profID=? ";
     private static final String SELECT_ALL_STUDENTS_OF_PROFESSOR = "select * from student " +
             "inner join  professor on " +
             " professor.id = student.profID" +
@@ -46,7 +48,7 @@ public class StudentDao {
         return connection;
     }
     // create new Student related to a Professor
-    public void  insertStudent (Student student) throws SQLException {
+    public Student  insertStudent (Student student) throws SQLException {
         Connection cnx = getConnection();
         PreparedStatement statement =cnx.prepareStatement(INSERT_STUDENT_WITHOUT_ID);
         statement.setString(1,student.getfName());
@@ -54,6 +56,28 @@ public class StudentDao {
         statement.setInt(3,student.getAge());
         statement.setInt(4,student.getProfID());
         statement.executeUpdate();
+        return  getStudentByAll(student);
+    }
+
+    public  Student getStudentByAll(Student student) throws SQLException {
+        Connection cnx = getConnection();
+        PreparedStatement statement =cnx.prepareStatement(SELECT_STUDENT_BY_All);
+        statement.setString(1,student.getfName());
+        statement.setString(2,student.getlName());
+        statement.setInt(3,student.getAge());
+        statement.setInt(4,student.getProfID());
+
+        ResultSet resultSet =statement.executeQuery();
+        while (resultSet.next()){
+          return    new Student(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("age"),
+                    resultSet.getInt("profID"),
+                    resultSet.getString("fName"),
+                    resultSet.getString("lName")
+            );
+        }
+        return null;
     }
     // update Student related to a Professor
     public boolean updateStudent(Student student,Professor professor) throws SQLException {
