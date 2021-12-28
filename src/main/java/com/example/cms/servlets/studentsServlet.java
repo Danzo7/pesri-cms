@@ -46,10 +46,9 @@ public class studentsServlet extends HttpServlet {
         String lName=request.getParameter("lName");
         String age=request.getParameter("age");
         HttpSession session=request.getSession(false);
-        Student s = null;
         StudentDao professorDao = new StudentDao();
         try {
-            s =   professorDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
+            professorDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

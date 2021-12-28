@@ -28,7 +28,7 @@ public class StudentDao {
     private static final String DELETE_STUDENTS_OF_PROFESSOR = "delete from student,professor " +
             "where student.profID = ?;";
     private static final String DELETE_STUDENT_OF_PROFESSOR = "delete from student,professor " +
-            "where student.profID = ? AND student.id= ?  ;";
+            "where  student.id= ? AND student.profID = ?  ;";
 
     private static final String UPDATE_STUDENT_OF_PROFESSOR = "update student,professor " +
             "set student.fName = ?,student.lName= ?, student.age =? " +
@@ -48,7 +48,7 @@ public class StudentDao {
         return connection;
     }
     // create new Student related to a Professor
-    public Student  insertStudent (Student student) throws SQLException {
+    public void  insertStudent (Student student) throws SQLException {
         Connection cnx = getConnection();
         PreparedStatement statement =cnx.prepareStatement(INSERT_STUDENT_WITHOUT_ID);
         statement.setString(1,student.getfName());
@@ -56,7 +56,7 @@ public class StudentDao {
         statement.setInt(3,student.getAge());
         statement.setInt(4,student.getProfID());
         statement.executeUpdate();
-        return  getStudentByAll(student);
+
     }
 
     public  Student getStudentByAll(Student student) throws SQLException {
@@ -99,8 +99,8 @@ public class StudentDao {
         boolean rowDeleted;
         Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_STUDENT_OF_PROFESSOR);
-            statement.setInt(1, professor.getId());
-            statement.setInt(2, student.getId());
+            statement.setInt(1, student.getId());
+            statement.setInt(2, professor.getId());
             rowDeleted = statement.executeUpdate() > 0;
         return rowDeleted;
     }
