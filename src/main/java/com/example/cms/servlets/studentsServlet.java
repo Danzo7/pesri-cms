@@ -15,9 +15,16 @@ public class studentsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      request.setAttribute("students",studentList);
-        request.getRequestDispatcher("studentList.jsp").forward(request,response);
+        HttpSession session=request.getSession(false);
 
+        if(session==null ||session.getAttribute("name")==null){
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
+        else{
+            request.setAttribute("students",studentList);
+            request.getRequestDispatcher("studentList.jsp").forward(request,response);
+
+        }
     }
 
     @Override

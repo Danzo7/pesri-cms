@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,22 +23,29 @@
     <div class="container w-50 p-5" style="background-color: #2C3964">
         <a href="register.jsp" class="badge badge-info float-lg-right">Register</a>
 
-        <form>
+        <form method="post">
         <div class="form-group">
             <label class="text-light" for="emailInput">Email address</label>
-            <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+            <input type="email" class="form-control" id="emailInput" name="email" aria-describedby="emailHelp" placeholder="Enter email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
-            <label class="text-light" for="passwordInput">Password</label>
-            <input type="password" class="form-control " id="passwordInput" placeholder="Password">
+            <label class="text-light" for="passwordInput" >Password</label>
+            <input type="password" name="password" class="form-control " id="passwordInput" placeholder="Password" required>
         </div>
         <div class=" form-group form-check">
-            <input type="checkbox" class="form-check-input" id="rememberCheck">
+            <input type="checkbox" class="form-check-input " name="rememberCheck" id="rememberCheck">
             <label class=" form-check-label text-light" for="rememberCheck">remember me</label>
         </div>
         <button type="submit" class="btn btn-primary">login</button>
-    </form>
+
+           <c:if test="${error!=null}">
+               <div class="alert alert-danger" role="alert">
+                   Wrong password or username!
+               </div>
+           </c:if>
+
+        </form>
 </div>
 </div>
 
