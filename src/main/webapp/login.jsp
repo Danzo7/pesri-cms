@@ -21,7 +21,7 @@
 
 
     <div class="container w-50 p-5" style="background-color: #2C3964">
-        <a href="/register" class="badge badge-info float-lg-right">Register</a>
+        <a href="${pageContext.request.contextPath}/register" class="badge badge-info float-lg-right">Register</a>
 
         <form method="post">
         <div class="form-group">

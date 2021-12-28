@@ -1,7 +1,7 @@
 package com.example.cms.models;
 
 public class Professor {
-    private int id;
+    private int id=-1;
     private String fName,lName,email ,password;
 
     public Professor(int id, String fName, String lName, String email, String password  ) {

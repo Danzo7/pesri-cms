@@ -1,5 +1,7 @@
 package com.example.cms.servlets;
 
+import com.example.cms.dao.ProfessorDao;
+import com.example.cms.dao.StudentDao;
 import com.example.cms.models.Professor;
 
 import javax.servlet.*;
@@ -7,6 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 @WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
@@ -28,12 +31,17 @@ public class LoginServlet extends HttpServlet {
         String password=request.getParameter("password");
         String checked=request.getParameter("rememberCheck");
 //TODO:check if professor exist
-        if(password.equals("password")){
+        Professor p =null;
+        ProfessorDao professorDao = new ProfessorDao();
+        try {
+         p =  professorDao.getProfessorInfoFromDB(email,password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(p != null){
             HttpSession session=request.getSession();
-            //TODO:selected professor.
-            Professor p=new Professor(1,"moh","catalonya",email,password);
+            //TODO:selected professor
             session.setAttribute("current",p);
-
             response.sendRedirect(request.getContextPath() + "/students");
         }
         else{

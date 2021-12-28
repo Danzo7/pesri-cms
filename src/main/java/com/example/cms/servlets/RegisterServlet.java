@@ -1,11 +1,13 @@
 package com.example.cms.servlets;
 
+import com.example.cms.dao.ProfessorDao;
 import com.example.cms.models.Professor;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "RegisterServlet", value = "/register")
 public class RegisterServlet extends HttpServlet {
@@ -28,8 +30,14 @@ public class RegisterServlet extends HttpServlet {
         String lName=request.getParameter("lName");
 
         //TODO:add professor.
-        Professor p=new Professor(1,fName,lName,email,password);
-      //Set cookies
+        Professor p = null;
+        ProfessorDao professorDao = new ProfessorDao();
+        try {
+          p =   professorDao.insertProfessor(new Professor(fName,lName,email,password));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Set cookies
         HttpSession session=request.getSession();
         session.setAttribute("current",p);
       //render View

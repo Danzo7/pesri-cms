@@ -12,12 +12,12 @@ public class ProfessorDao {
 
     private static final String INSERT_PROFESSOR_WiTH_ID = "INSERT INTO professor" + "  (id ,fName,lName,email,password) VALUES " +
             " ( ?, ?, ?, ? , ?);";
-    private static final String INSERT_PROFESSOR_WITHOUT_ID = "INSERT INTO professor" + "  (fName,lName,email,password) VALUES " +
+    private static final String INSERT_PROFESSOR_WITHOUT_ID = "INSERT INTO professor " + "  (fName,lName,email,password) VALUES " +
             " (?, ?, ? , ?);";
 
     private static final String SELECT_PROFESSOR_BY_ID = "select fName,lName,email,password from professor where id =?";
-    private  static  final String SELECT_PROFESSOR_BY_EMAIL_PASSWORD ="select id,fName ,lName,email,password from professor" +
-            "where email =? AND password=? ";
+    private  static  final String SELECT_PROFESSOR_BY_EMAIL_PASSWORD ="select id,fName ,lName,email,password from professor " +
+            "where email = ? AND password = ? ";
     private static final String SELECT_ALL_PROFESSORS = "select fName,lName,email,password from professor ";
 
     private static final String UPDATE_PROFESSOR = "update professor " +
@@ -38,7 +38,7 @@ public class ProfessorDao {
         return connection;
     }
         // create new Professor
-    public void  insertProfessor (Professor professor) throws SQLException {
+    public Professor  insertProfessor (Professor professor) throws SQLException {
         Connection cnx = getConnection();
          PreparedStatement statement =cnx.prepareStatement(INSERT_PROFESSOR_WITHOUT_ID);
          statement.setString(1,professor.getfName());
@@ -46,6 +46,7 @@ public class ProfessorDao {
         statement.setString(3,professor.getEmail());
         statement.setString(4,professor.getPassword());
         statement.executeUpdate();
+        return  getProfessorInfoFromDB(professor.getEmail(), professor.getPassword());
     }
 
     public Boolean CheckRegistedProfessor (Professor professor) throws SQLException {
