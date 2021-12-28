@@ -22,8 +22,6 @@ public class studentsServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
         }
         else{
-            //TODO:get current professor from cookies.
-            //Professor p=new Professor(1,(Professor)session.getAttribute("name"),"catalonya","name");
             request.setAttribute("prof",(Professor)session.getAttribute("current"));
             request.setAttribute("students",studentList);
             request.getRequestDispatcher("studentList.jsp").forward(request,response);

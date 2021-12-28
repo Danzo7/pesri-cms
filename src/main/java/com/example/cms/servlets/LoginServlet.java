@@ -27,13 +27,12 @@ public class LoginServlet extends HttpServlet {
         String email=request.getParameter("email");
         String password=request.getParameter("password");
         String checked=request.getParameter("rememberCheck");
+//TODO:check if professor exist
         if(password.equals("password")){
             HttpSession session=request.getSession();
+            //TODO:selected professor.
             Professor p=new Professor(1,"moh","catalonya",email,password);
             session.setAttribute("current",p);
-
-            //TODO:select professor.
-
 
             response.sendRedirect(request.getContextPath() + "/students");
         }
