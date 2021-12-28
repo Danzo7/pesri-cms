@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDao {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/classroomdb?useSSL=false&serverTimezone=UTC";
     private String jdbcUsername = "root";
     private String jdbcPassword = "root";
 
@@ -18,25 +18,26 @@ public class StudentDao {
             " (?, ?, ? , ?);";
 
     private static final String SELECT_STUDENT_BY_ID = "select fName,lName,age from student where id =?";
-    private static final String SELECT_ALL_STUDENTS_OF_PROFESSOR = "select * " +
-            "from student,professor" +
-            " where student.profID = professor.? ";
+    private static final String SELECT_ALL_STUDENTS_OF_PROFESSOR = "select * from student " +
+            "inner join  professor on " +
+            " professor.id = student.profID" +
+            " where professor.id=?  ";
 
     private static final String DELETE_STUDENTS_OF_PROFESSOR = "delete from student,professor " +
-            "where student.profID = professor.?;";
+            "where student.profID = ?;";
     private static final String DELETE_STUDENT_OF_PROFESSOR = "delete from student,professor " +
-            "where student.profID = professor.? AND student.id= ?  ;";
+            "where student.profID = ? AND student.id= ?  ;";
 
     private static final String UPDATE_STUDENT_OF_PROFESSOR = "update student,professor " +
             "set student.fName = ?,student.lName= ?, student.age =? " +
-            "where student.profID = professor.? AND student.id= ? ;";
+            "where student.profID = ? AND student.id= ? ;";
 
     public StudentDao (){}
 
     protected Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException e) {
             // TODO Auto-generated catch block

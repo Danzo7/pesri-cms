@@ -8,8 +8,10 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @WebServlet(name = "studentsServlet", value = "/students")
 public class studentsServlet extends HttpServlet {
@@ -21,10 +23,20 @@ public class studentsServlet extends HttpServlet {
         if(session==null ||session.getAttribute("current")==null){
             response.sendRedirect(request.getContextPath() + "/login");
         }
-        else{
-            request.setAttribute("prof",(Professor)session.getAttribute("current"));
-            request.setAttribute("students",studentList);
-            request.getRequestDispatcher("studentList.jsp").forward(request,response);
+        else {
+            StudentDao studentDao;
+            studentDao = new StudentDao();
+            Professor p = (Professor) session.getAttribute("current");
+            List<Student> list = null;
+            try {
+                list = studentDao.selecteAllStudents(p);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            request.setAttribute("prof", p);
+            request.setAttribute("students", list);
+            request.getRequestDispatcher("studentList.jsp").forward(request, response);
 
         }
     }
