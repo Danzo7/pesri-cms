@@ -69,7 +69,7 @@ public class StudentDao {
         statement.setInt(4,student.getProfID());
 
         ResultSet resultSet =statement.executeQuery();
-        while (resultSet.next()){
+        if (resultSet.next()){
           return    new Student(
                     resultSet.getInt("id"),
                     resultSet.getInt("age"),
