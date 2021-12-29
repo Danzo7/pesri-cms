@@ -16,7 +16,7 @@ public class StudentDao {
             " ( ?, ?, ?, ? , ?);";
     private static final String INSERT_STUDENT_WITHOUT_ID = "INSERT INTO student" + "  (fName,lName,age,profID) VALUES " +
             " (?, ?, ? , ?);";
-//TODO:add profID
+private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from student where id =? AND profID=?";
     private static final String SELECT_STUDENT_BY_ID = "select * from student where id =?";
     private static final String SELECT_STUDENT_BY_All = "select * from student where " +
             "fName =? AND lName=? AND age=? AND profID=? ";
@@ -124,11 +124,11 @@ public class StudentDao {
         }
         return  studentList;
     }
-    //TODO:add ProfID
-    public Student selectStudent (int studentID) throws SQLException {
+    public Student selectStudent (int studentID,int profID) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(SELECT_STUDENT_BY_ID);
+        PreparedStatement statement = connection.prepareStatement(SELECT_STUDENT_BY_ID_OF_PROFESSOR);
         statement.setInt(1,studentID);
+        statement.setInt(2,profID);
         ResultSet resultSet =statement.executeQuery();
         if (resultSet.next()){
             return  (new Student(

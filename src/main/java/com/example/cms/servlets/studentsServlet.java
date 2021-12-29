@@ -33,7 +33,7 @@ public class studentsServlet extends HttpServlet {
                 list = studentDao.selecteAllStudents(p);
                 if(request.getParameter("id")!=null){
                 int id= Integer.parseInt(request.getParameter("id"));
-                    selectedStudent= studentDao.selectStudent(id);}
+                    selectedStudent= studentDao.selectStudent(id,p.getId());}
             } catch (SQLException e) {
                 e.printStackTrace();
             }
