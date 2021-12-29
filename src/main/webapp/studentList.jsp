@@ -18,8 +18,7 @@
 </head>
 <body>
 
-
-<div  class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+<div class="modal fade in" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog modal-dialog-centered" role="document" >
     <div class="modal-content">
       <div class="modal-header">
@@ -32,15 +31,30 @@
         <form method="post" id="addStudentForm">
           <div class="form-group">
             <label  for="first-name">First name</label>
+            <c:if test="${student!=null}">
+              <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" value="${student.fName}"  required >
+            </c:if>
+<c:if test="${student==null}">
             <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" placeholder="Enter the first name"  required >
-          </div>
+</c:if>
+  </div>
           <div class="form-group">
             <label  for="last-name">Last name</label>
-            <input  type="text" class="form-control" name="lName"  id="last-name" aria-describedby="first-name" placeholder="Enter the last name" required  >
+            <c:if test="${student!=null}">
+              <input type="text" class="form-control" id="last-name" name="lName" aria-describedby="last-name" value="${student.lName}"  required >
+            </c:if>
+            <c:if test="${student==null}">
+              <input type="text" class="form-control" id="last-name" name="lName" aria-describedby="last-name" placeholder="Enter the last name"  required >
+            </c:if>
           </div>
           <div class="form-group">
             <label  for="age">Age</label>
-            <input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" placeholder="Enter the age"  required >
+            <c:if test="${student!=null}">
+              <input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" value="${student.age}"  required >
+            </c:if>
+<c:if test="${student==null}">
+<input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" placeholder="Enter the age"  required >
+</c:if>
           </div>
         </form>
       </div>
@@ -55,7 +69,7 @@
 <div class="app">
  <h4 class="badge badge-info float-lg-right">welcome ${prof.lName} ${prof.fName}</h4>
   <div class="tables">
-  <button class=" btn btn-warning" id="addButton" style="float:right" data-toggle="modal" data-target="#addModal">add...</button>
+  <a class=" btn btn-warning"  href="?add">add...</a>
 
   <table class="table  table-dark table-striped">
     <thead>
@@ -64,20 +78,23 @@
       <th scope="col">First name</th>
       <th scope="col">Last name</th>
       <th scope="col">Age</th>
-      <th scope="col">action</th>
+      <th scope="col">Id</th>
+      <th scope="col">Action</th>
     </tr>
     </thead>
     <tbody>
     <jsp:useBean id="students" scope="request" type="java.util.List"/>
-    <c:forEach var="student" items="${students}" >
+    <c:forEach var="studentItem" items="${students}" >
       <tr>
-        <jsp:useBean id="student" type="com.example.cms.models.Student"/>
-        <th scope="row">${students.indexOf(student)}</th>
-        <td>${student.fName}</td>
-        <td>${student.lName}</td>
-        <td>${student.age}</td>
+        <jsp:useBean id="studentItem" type="com.example.cms.models.Student"/>
+        <th scope="row">${students.indexOf(studentItem)}</th>
+        <td>${studentItem.fName}</td>
+        <td>${studentItem.lName}</td>
+        <td>${studentItem.age}</td>
+        <td>${studentItem.id}</td>
         <td>
-          <button class="btn btn-secondary" data-toggle="modal" data-target="#addModal">edit...</button>
+          <a class="badge badge-info float-lg-right"  href="?id=${studentItem.id}">edit...</a>
+          <a class="badge badge-error float-lg-right" data-toggle="modal" data-target="#addModal">delete...</a>
 
         </td>
       </tr>
@@ -92,6 +109,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="student.js" ></script>
+<c:if test="${show!=null}">
+  <script type="text/javascript">
+    $('.modal').modal('show');
 
+  </script>
+</c:if>
 </body>
 </html>

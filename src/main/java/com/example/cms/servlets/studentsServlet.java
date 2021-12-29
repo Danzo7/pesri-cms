@@ -26,15 +26,23 @@ public class studentsServlet extends HttpServlet {
         else {
             Professor p = (Professor) session.getAttribute("current");
             StudentDao studentDao;
+            Student selectedStudent=null;
             studentDao = new StudentDao();
             List<Student> list = null;
             try {
                 list = studentDao.selecteAllStudents(p);
+                if(request.getParameter("id")!=null){
+                int id= Integer.parseInt(request.getParameter("id"));
+                    selectedStudent= studentDao.selectStudent(id);}
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             request.setAttribute("prof", p);
             request.setAttribute("students", list);
+            if(selectedStudent!=null|| request.getParameter("add")!=null) request.setAttribute("show", "s");
+
+                request.setAttribute("student", selectedStudent);
+
             request.getRequestDispatcher("studentList.jsp").forward(request, response);
 
         }
@@ -48,12 +56,16 @@ public class studentsServlet extends HttpServlet {
         HttpSession session=request.getSession(false);
         StudentDao professorDao = new StudentDao();
         try {
+            if(request.getParameter("id")!=null){
+               professorDao.updateStudent(new Student(Integer.parseInt(request.getParameter("id")),Integer.parseInt(age),((Professor) session.getAttribute("current")).getId(),fName,lName),((Professor) session.getAttribute("current")).getId());
+            } else
             professorDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //render View
         response.sendRedirect(request.getContextPath() + "/students");
 
     }
+
 }

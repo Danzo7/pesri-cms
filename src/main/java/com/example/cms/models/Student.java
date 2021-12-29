@@ -1,7 +1,7 @@
 package com.example.cms.models;
 
 public class Student {
-    private int id ,age,profID;
+    private int id=-1 ,age,profID;
     private String fName;
     private String lName;
 
@@ -13,6 +13,7 @@ public class Student {
         this.lName = lName;
     }
     // the id is Auto_increment //
+    // please use same order  as first constructor next time =bad code :/.
     public Student( String fName, String lName,int age, int profID) {
         this.age = age;
         this.profID = profID;

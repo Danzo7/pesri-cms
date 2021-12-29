@@ -28,6 +28,7 @@ dependencies {
 
     implementation 'mysql:mysql-connector-java:8.0.15'
     implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
 }
 

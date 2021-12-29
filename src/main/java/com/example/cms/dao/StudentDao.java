@@ -16,10 +16,11 @@ public class StudentDao {
             " ( ?, ?, ?, ? , ?);";
     private static final String INSERT_STUDENT_WITHOUT_ID = "INSERT INTO student" + "  (fName,lName,age,profID) VALUES " +
             " (?, ?, ? , ?);";
-
-    private static final String SELECT_STUDENT_BY_ID = "select fName,lName,age from student where id =?";
+//TODO:add profID
+    private static final String SELECT_STUDENT_BY_ID = "select * from student where id =?";
     private static final String SELECT_STUDENT_BY_All = "select * from student where " +
             "fName =? AND lName=? AND age=? AND profID=? ";
+
     private static final String SELECT_ALL_STUDENTS_OF_PROFESSOR = "select * from student " +
             "inner join  professor on " +
             " professor.id = student.profID" +
@@ -30,7 +31,7 @@ public class StudentDao {
     private static final String DELETE_STUDENT_OF_PROFESSOR = "delete from student,professor " +
             "where  student.id= ? AND student.profID = ?  ;";
 
-    private static final String UPDATE_STUDENT_OF_PROFESSOR = "update student,professor " +
+    private static final String UPDATE_STUDENT_OF_PROFESSOR = "update student,professor  " +
             "set student.fName = ?,student.lName= ?, student.age =? " +
             "where student.profID = ? AND student.id= ? ;";
 
@@ -80,14 +81,14 @@ public class StudentDao {
         return null;
     }
     // update Student related to a Professor
-    public boolean updateStudent(Student student,Professor professor) throws SQLException {
+    public boolean updateStudent(Student student,int professorID) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_STUDENT_OF_PROFESSOR)) {
              statement.setString(1, student.getfName());
-            statement.setString(2, student.getfName());
+            statement.setString(2, student.getlName());
             statement.setInt(3, student.getAge());
-            statement.setInt(4, professor.getId());
+            statement.setInt(4, professorID);
             statement.setInt(5, student.getId());
 
             rowUpdated = statement.executeUpdate() > 0;
@@ -123,7 +124,24 @@ public class StudentDao {
         }
         return  studentList;
     }
+    //TODO:add ProfID
+    public Student selectStudent (int studentID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT_STUDENT_BY_ID);
+        statement.setInt(1,studentID);
+        ResultSet resultSet =statement.executeQuery();
+        if (resultSet.next()){
+            return  (new Student(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("age"),
+                    resultSet.getInt("profID"),
+                    resultSet.getString("fName"),
+                    resultSet.getString("lName")
+            ));
 
+        }
+        return  null;
+    }
 
 
 }
