@@ -33,7 +33,12 @@ public class studentsServlet extends HttpServlet {
                 list = studentDao.selecteAllStudents(p);
                 if(request.getParameter("id")!=null){
                 int id= Integer.parseInt(request.getParameter("id"));
-                    selectedStudent= studentDao.selectStudent(id,p.getId());}
+                    selectedStudent= studentDao.selectStudent(id,p.getId());
+                if(request.getParameter("delete")!=null){
+                    request.setAttribute("delete", "true");
+
+                }
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -56,10 +61,16 @@ public class studentsServlet extends HttpServlet {
         HttpSession session=request.getSession(false);
         StudentDao professorDao = new StudentDao();
         try {
+            if(request.getParameter("delete")!=null && request.getParameter("id")!=null)
+                professorDao.deleteStudent(Integer.parseInt(request.getParameter("id")),((Professor) session.getAttribute("current")).getId());
+            else
+                if(fName!=null&&lName!=null&&age!=null){
             if(request.getParameter("id")!=null){
                professorDao.updateStudent(new Student(Integer.parseInt(request.getParameter("id")),Integer.parseInt(age),((Professor) session.getAttribute("current")).getId(),fName,lName),((Professor) session.getAttribute("current")).getId());
             } else
             professorDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
+                }
+                else throw new Exception("invalid Data"+request.getParameter("delete"));
         } catch (Exception e) {
             e.printStackTrace();
         }

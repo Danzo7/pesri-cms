@@ -28,7 +28,7 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
 
     private static final String DELETE_STUDENTS_OF_PROFESSOR = "delete from student,professor " +
             "where student.profID = ?;";
-    private static final String DELETE_STUDENT_OF_PROFESSOR = "delete from student,professor " +
+    private static final String DELETE_STUDENT_OF_PROFESSOR = "delete from student " +
             "where  student.id= ? AND student.profID = ?  ;";
 
     private static final String UPDATE_STUDENT_OF_PROFESSOR = "update student,professor  " +
@@ -96,12 +96,12 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
         return rowUpdated;
     }
     // Delete Student
-    public boolean deleteStudent(Student student,Professor professor) throws SQLException {
+    public boolean deleteStudent(int studentId,int profID) throws SQLException {
         boolean rowDeleted;
         Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_STUDENT_OF_PROFESSOR);
-            statement.setInt(1, student.getId());
-            statement.setInt(2, professor.getId());
+            statement.setInt(1, studentId);
+            statement.setInt(2, profID);
             rowDeleted = statement.executeUpdate() > 0;
         return rowDeleted;
     }

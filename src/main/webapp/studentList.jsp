@@ -19,52 +19,67 @@
 <body>
 
 <div class="modal fade in" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog modal-dialog-centered" role="document" >
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addModalLabel">Add user</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post" id="addStudentForm">
-          <div class="form-group">
-            <label  for="first-name">First name</label>
-            <c:if test="${student!=null}">
-              <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" value="${student.fName}"  required >
+    <div class="modal-dialog modal-dialog modal-dialog-centered" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">${delete!=null?"Delete a student":student!=null?"Edit a student":"add a student"}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <c:if test="${delete==null}">
+                <form method="post" id="addStudentForm">
+                    <div class="form-group">
+                        <label  for="first-name">First name</label>
+                        <c:if test="${student!=null}">
+                            <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" value="${student.fName}"  required >
+                        </c:if>
+                        <c:if test="${student==null}">
+                            <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" placeholder="Enter the first name"  required >
+                        </c:if>
+                    </div>
+                    <div class="form-group">
+                        <label  for="last-name">Last name</label>
+                        <c:if test="${student!=null}">
+                            <input type="text" class="form-control" id="last-name" name="lName" aria-describedby="last-name" value="${student.lName}"  required >
+                        </c:if>
+                        <c:if test="${student==null}">
+                            <input type="text" class="form-control" id="last-name" name="lName" aria-describedby="last-name" placeholder="Enter the last name"  required >
+                        </c:if>
+                    </div>
+                    <div class="form-group">
+                        <label  for="age">Age</label>
+                        <c:if test="${student!=null}">
+                            <input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" value="${student.age}"  required >
+                        </c:if>
+                        <c:if test="${student==null}">
+                            <input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" placeholder="Enter the age"  required >
+                        </c:if>
+                    </div>
+                </form>
+                </c:if>
+            <c:if test="${delete!=null}">
+                <h4>Are you sure you want to delete <b class="text-warning">${student.lName} ${student.fName} ?</b></h4>
+                <form id="deleteForm" method="post">
+                    <label style="display: none">
+                        <input name="confirm" type="checkbox"  id="confirm" aria-describedby="confirm" value="true" required disabled>
+                    </label>
+                </form>
             </c:if>
-<c:if test="${student==null}">
-            <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" placeholder="Enter the first name"  required >
-</c:if>
-  </div>
-          <div class="form-group">
-            <label  for="last-name">Last name</label>
-            <c:if test="${student!=null}">
-              <input type="text" class="form-control" id="last-name" name="lName" aria-describedby="last-name" value="${student.lName}"  required >
-            </c:if>
-            <c:if test="${student==null}">
-              <input type="text" class="form-control" id="last-name" name="lName" aria-describedby="last-name" placeholder="Enter the last name"  required >
-            </c:if>
-          </div>
-          <div class="form-group">
-            <label  for="age">Age</label>
-            <c:if test="${student!=null}">
-              <input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" value="${student.age}"  required >
-            </c:if>
-<c:if test="${student==null}">
-<input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" placeholder="Enter the age"  required >
-</c:if>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" form="addStudentForm">Save changes</button>
-      </div>
+            </div>
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-${delete!=null?"danger":student!=null?"warning":"primary"}" form="${delete!=null?"deleteForm":"addStudentForm"}">${delete!=null?"Confirm":student!=null?"Save change":"Add student"}</button>
+
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
 
 <div class="app">
  <h4 class="badge badge-info float-lg-right">welcome ${prof.lName} ${prof.fName}</h4>
@@ -94,7 +109,7 @@
         <td>${studentItem.id}</td>
         <td>
           <a class="badge badge-info float-lg-right"  href="?id=${studentItem.id}">edit...</a>
-          <a class="badge badge-error float-lg-right" data-toggle="modal" data-target="#addModal">delete...</a>
+          <a class="badge badge-danger float-lg-right" href="?id=${studentItem.id}&delete">delete...</a>
 
         </td>
       </tr>
@@ -112,7 +127,6 @@
 <c:if test="${show!=null}">
   <script type="text/javascript">
     $('.modal').modal('show');
-
   </script>
 </c:if>
 </body>
