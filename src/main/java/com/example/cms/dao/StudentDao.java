@@ -35,6 +35,9 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
     private static final String UPDATE_STUDENT_OF_PROFESSOR = "update student,professor  " +
             "set student.fName = ?,student.lName= ?, student.age =? " +
             "where student.profID = ? AND student.id= ? ;";
+    private  static final String SEARCH_STUDENT_BY_STRING = "SELECT * " +
+            "FROM student " +
+            "WHERE    profID= ? AND ( fName LIKE ?%  or lName LIKE ?%  )  ;";
 
     public StudentDao (){}
 
@@ -161,6 +164,26 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
 
         }
         return  null;
+    }
+    public List<Student> searchStudentByString(int profID,String word) throws SQLException {
+        List < Student > studentList = new ArrayList< >();
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(SEARCH_STUDENT_BY_STRING);
+        statement.setInt(1,profID);
+        statement.setString(2,word);
+        statement.setString(3,word);
+
+        ResultSet resultSet =statement.executeQuery();
+        while (resultSet.next()){
+            studentList.add(new Student(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("age"),
+                    resultSet.getInt("profID"),
+                    resultSet.getString("fName"),
+                    resultSet.getString("lName")
+            ));
+        }
+        return  studentList;
     }
 
 
