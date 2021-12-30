@@ -65,11 +65,6 @@
                     <label style="display: none">
                         <input name="confirm" type="checkbox"  id="confirm" aria-describedby="confirm" value="true" required disabled>
                     </label>
-                    <c:if test="${error!=null}">
-                        <div class="alert alert-danger" role="alert">
-                                ${error}
-                        </div>
-                    </c:if>
                 </form>
             </c:if>
             </div>
@@ -90,6 +85,11 @@
      <a href="${pageContext.request.contextPath}/logout" class="badge badge-danger float-lg-right">Logout</a>
  </div>
  </div>
+    <c:if test="${error!=null}">
+        <div class="alert alert-danger" role="alert">
+                ${error}
+        </div>
+    </c:if>
     <div class="tables">
   <a class=" btn btn-primary" style="float: right" href="?add">add...</a>
 

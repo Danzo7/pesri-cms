@@ -28,6 +28,11 @@ public class studentsServlet extends HttpServlet {
             Student selectedStudent=null;
             studentDao = new StudentDao();
             List<Student> list = null;
+            if(request.getParameter("error")!=null) {
+                request.setAttribute("error", request.getParameter("error"));
+            }
+
+
             try {
                 list = studentDao.selecteAllStudents(p);
                 if(request.getParameter("id")!=null){
@@ -72,10 +77,9 @@ public class studentsServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error","true");
-            request.setAttribute("show", e.getMessage());
-            response.sendRedirect(request.getContextPath() + "/students?error");
-return;
+            response.sendRedirect(request.getContextPath() + "/students?error="+e.getMessage());
+
+            return;
         }
         //render View
         response.sendRedirect(request.getContextPath() + "/students");
