@@ -22,3 +22,18 @@
 .tables{
     width: 100%;
 }
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.row-list
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    gap: 1vw;
+}

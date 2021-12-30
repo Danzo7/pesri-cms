@@ -44,10 +44,10 @@ public class studentsServlet extends HttpServlet {
             }
             request.setAttribute("prof", p);
             request.setAttribute("students", list);
-            if(selectedStudent!=null|| request.getParameter("add")!=null) request.setAttribute("show", "s");
+            if(selectedStudent!=null|| request.getParameter("add")!=null)
+                request.setAttribute("show", "s");
 
-                request.setAttribute("student", selectedStudent);
-
+            request.setAttribute("student", selectedStudent);
             request.getRequestDispatcher("studentList.jsp").forward(request, response);
 
         }

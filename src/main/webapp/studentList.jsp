@@ -60,7 +60,7 @@
                 </form>
                 </c:if>
             <c:if test="${delete!=null}">
-                <h4>Are you sure you want to delete <b class="text-warning">${student.lName} ${student.fName} ?</b></h4>
+                <h6>Are you sure you want to delete <b class="text-warning">${student.lName} ${student.fName} ?</b></h6>
                 <form id="deleteForm" method="post">
                     <label style="display: none">
                         <input name="confirm" type="checkbox"  id="confirm" aria-describedby="confirm" value="true" required disabled>
@@ -69,12 +69,8 @@
             </c:if>
             </div>
             <div class="modal-footer">
-
-
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-${delete!=null?"danger":student!=null?"warning":"primary"}" form="${delete!=null?"deleteForm":"addStudentForm"}">${delete!=null?"Confirm":student!=null?"Save change":"Add student"}</button>
-
-
             </div>
         </div>
     </div>
@@ -82,9 +78,15 @@
 
 
 <div class="app">
- <h4 class="badge badge-info float-lg-right">welcome ${prof.lName} ${prof.fName}</h4>
-  <div class="tables">
-  <a class=" btn btn-warning"  href="?add">add...</a>
+ <div class="header"><h4 class="text-light">welcome ${prof.fName} ${prof.lName}</h4>
+
+ <div class="row-list">
+     <a href="${pageContext.request.contextPath}/profile" class="badge badge-info float-lg-right">Profile</a>
+     <a href="${pageContext.request.contextPath}/logout" class="badge badge-danger float-lg-right">Logout</a>
+ </div>
+ </div>
+    <div class="tables">
+  <a class=" btn btn-primary" style="float: right" href="?add">add...</a>
 
   <table class="table  table-dark table-striped">
     <thead>
@@ -107,7 +109,7 @@
         <td>${studentItem.lName}</td>
         <td>${studentItem.age}</td>
         <td>${studentItem.id}</td>
-        <td>
+        <td class="row-list">
           <a class="badge badge-info float-lg-right"  href="?id=${studentItem.id}">edit...</a>
           <a class="badge badge-danger float-lg-right" href="?id=${studentItem.id}&delete">delete...</a>
 
@@ -117,7 +119,6 @@
     </tbody>
   </table>
   </div>
-  <a href="${pageContext.request.contextPath}/logout" class="badge badge-info float-lg-right">Logout</a>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

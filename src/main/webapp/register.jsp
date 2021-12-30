@@ -47,7 +47,7 @@
                 <label class="text-light" for="passwordInput" >Password</label>
                 <input type="password" class="form-control " name="password"  id="passwordInput" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-secondary">Register</button>
+            <button type="submit" class="btn btn-success">Register</button>
         </form>
     </div>
 </div>
