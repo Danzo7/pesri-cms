@@ -25,9 +25,11 @@
 .header {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     width: 100%;
+    gap: 1vw;
+    align-content: center;
 }
 .row-list
 {

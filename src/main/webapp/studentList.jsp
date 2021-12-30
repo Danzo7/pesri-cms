@@ -85,11 +85,7 @@
      <a href="${pageContext.request.contextPath}/logout" class="badge badge-danger float-lg-right">Logout</a>
  </div>
  </div>
-    <c:if test="${error!=null}">
-        <div class="alert alert-danger" role="alert">
-                ${error}
-        </div>
-    </c:if>
+
     <div class="tables">
         <div class="header">
             <div class="search-bar">
@@ -100,6 +96,11 @@
                 </div>
             <button type="submit" form="search-form" class="btn btn-primary mb-2">Search</button>
             </form></div>
+            <c:if test="${error!=null}">
+                <div class="alert alert-danger" style="flex-grow: 1" role="alert">
+                        ${error}
+                </div>
+            </c:if>
             <a class=" btn btn-primary" style="float: right" href="?add">add...</a>
         </div>
 
