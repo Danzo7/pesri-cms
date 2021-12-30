@@ -34,6 +34,9 @@ public class studentsServlet extends HttpServlet {
 
 
             try {
+                if(request.getParameter("search")!=null)
+                list = studentDao.searchStudentByString(p.getId(),request.getParameter("search"));
+                else
                 list = studentDao.selecteAllStudents(p);
                 if(request.getParameter("id")!=null){
                 int id= Integer.parseInt(request.getParameter("id"));

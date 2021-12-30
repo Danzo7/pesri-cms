@@ -91,7 +91,18 @@
         </div>
     </c:if>
     <div class="tables">
-  <a class=" btn btn-primary" style="float: right" href="?add">add...</a>
+        <div class="header">
+            <div class="search-bar">
+            <form class="form-inline" method="get" id="search-form" >
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="search" class="sr-only">search</label>
+                    <input type="search" name="search" class="form-control" id="search" placeholder="Search">
+                </div>
+            <button type="submit" form="search-form" class="btn btn-primary mb-2">Search</button>
+            </form></div>
+            <a class=" btn btn-primary" style="float: right" href="?add">add...</a>
+        </div>
+
 
   <table class="table  table-dark table-striped">
     <thead>

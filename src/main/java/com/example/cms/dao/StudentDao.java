@@ -37,7 +37,7 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
             "where student.profID = ? AND student.id= ? ;";
     private  static final String SEARCH_STUDENT_BY_STRING = "SELECT * " +
             "FROM student " +
-            "WHERE    profID= ? AND ( fName LIKE ?%  or lName LIKE ?%  )  ;";
+            "WHERE    profID= ? AND ( fName LIKE ?  OR lName LIKE ?  )  ;";
 
     public StudentDao (){}
 
@@ -170,8 +170,8 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement(SEARCH_STUDENT_BY_STRING);
         statement.setInt(1,profID);
-        statement.setString(2,word);
-        statement.setString(3,word);
+        statement.setString(2,word+"%");
+        statement.setString(3,word+"%");
 
         ResultSet resultSet =statement.executeQuery();
         while (resultSet.next()){
