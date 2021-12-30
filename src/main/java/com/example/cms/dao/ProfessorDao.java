@@ -1,6 +1,7 @@
 package com.example.cms.dao;
 
 import com.example.cms.models.Professor;
+import com.example.cms.models.Student;
 
 import java.sql.*;
 
@@ -21,7 +22,7 @@ public class ProfessorDao {
     private static final String SELECT_ALL_PROFESSORS = "select fName,lName,email,password from professor ";
 
     private static final String UPDATE_PROFESSOR = "update professor " +
-            "set professor.fName = ?,professor.lName= ?, professor.email =?  , professor.password " +
+            "set fName = ?, lName= ?, email =?  , password =? " +
             "where id= ? ;";
 
     public ProfessorDao (){}
@@ -47,6 +48,20 @@ public class ProfessorDao {
         statement.setString(4,professor.getPassword());
         statement.executeUpdate();
         return  getProfessorInfoFromDB(professor.getEmail(), professor.getPassword());
+    }
+    public boolean updateProfessor( Professor professor) throws SQLException {
+        boolean rowUpdated;
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_PROFESSOR)) {
+            statement.setString(1, professor.getfName());
+            statement.setString(2, professor.getlName());
+            statement.setString(3, professor.getEmail());
+            statement.setString(4, professor.getPassword());
+            statement.setInt(5, professor.getId());
+
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
     }
 
     public Boolean CheckRegistedProfessor (Professor professor) throws SQLException {
