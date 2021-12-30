@@ -14,6 +14,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "studentsServlet", value = "/students")
 public class studentsServlet extends HttpServlet {
@@ -53,19 +55,48 @@ public class studentsServlet extends HttpServlet {
         String fName=request.getParameter("fName");
         String lName=request.getParameter("lName");
         String age=request.getParameter("age");
-        HttpSession session=request.getSession(false);
-        StudentDao professorDao = new StudentDao();
-        try {
-            if(request.getParameter("id")!=null){
-               professorDao.updateStudent(new Student(Integer.parseInt(request.getParameter("id")),Integer.parseInt(age),((Professor) session.getAttribute("current")).getId(),fName,lName),((Professor) session.getAttribute("current")).getId());
-            } else
-            professorDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        String fNameRegex="^[A-Za-z]{3,30}$";
+
+        if(regexChecker(fNameRegex,fName)
+                && regexChecker(fNameRegex,lName)
+                && Integer.parseInt(age)>17
+                && Integer.parseInt(age) <=30 ) {
+
+
+            HttpSession session = request.getSession(false);
+            StudentDao studentDaoDao = new StudentDao();
+            Professor currentProfessor = (Professor) session.getAttribute("current");
+            try {
+                if (request.getParameter("id") != null) {
+                    studentDaoDao.updateStudent(new Student(Integer.parseInt(request.getParameter("id")), Integer.parseInt(age), currentProfessor.getId(), fName, lName), currentProfessor.getId());
+                } else {
+                    studentDaoDao.insertStudent(new Student(fName, lName, Integer.parseInt(age), currentProfessor.getId()));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //render View
         }
-        //render View
+        else {
+            request.setAttribute("modalerror","true");
+            // modal must re-render with error below
+        }
         response.sendRedirect(request.getContextPath() + "/students");
 
     }
+    public static boolean regexChecker(String regex, String valueToCheck){
+        Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+        Matcher regexMatcher= regexPattern.matcher(valueToCheck);
+
+        if(regexMatcher.matches()){
+            return  true;
+        }
+        else {
+            return  false;
+        }
+    }
+
 
 }

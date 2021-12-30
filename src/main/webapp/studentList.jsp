@@ -56,6 +56,11 @@
 <input min="18"  max="30" type="number" class="form-control" name="age"  id="age" aria-describedby="age" placeholder="Enter the age"  required >
 </c:if>
           </div>
+            <c:if test="${modalerror!=null}">
+                <div class="alert alert-danger" role="alert">
+                    Bad Inputs !
+                </div>
+            </c:if>
         </form>
       </div>
       <div class="modal-footer">

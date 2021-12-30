@@ -10,6 +10,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
@@ -30,6 +32,11 @@ public class LoginServlet extends HttpServlet {
         String email=request.getParameter("email");
         String password=request.getParameter("password");
         String checked=request.getParameter("rememberCheck");
+
+        String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
+        if(regexChecker(emailRegex,email) && password.length() > 7 ) {
+
+
 //TODO:check if professor exist
         Professor p =null;
         ProfessorDao professorDao = new ProfessorDao();
@@ -47,6 +54,23 @@ public class LoginServlet extends HttpServlet {
         else{
             request.setAttribute("error","true");
             request.getRequestDispatcher("login.jsp").forward(request,response);
+        }
+        }
+        else {
+            // send validation error
+            request.setAttribute("error","true");
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+        }
+    }
+    public static boolean regexChecker(String regex, String valueToCheck){
+        Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+        Matcher regexMatcher= regexPattern.matcher(valueToCheck);
+
+        if(regexMatcher.matches()){
+            return  true;
+        }
+        else {
+            return  false;
         }
     }
 }

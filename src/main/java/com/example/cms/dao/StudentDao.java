@@ -17,7 +17,8 @@ public class StudentDao {
     private static final String INSERT_STUDENT_WITHOUT_ID = "INSERT INTO student" + "  (fName,lName,age,profID) VALUES " +
             " (?, ?, ? , ?);";
 private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from student where id =? AND profID=?";
-    private static final String SELECT_STUDENT_BY_ID = "select * from student where id =?";
+    private static final String SELECT_STUDENT_BY_FNAME_LNAME = "select * from student where fName =? " +
+            "AND lName =? AND profID =?";
     private static final String SELECT_STUDENT_BY_All = "select * from student where " +
             "fName =? AND lName=? AND age=? AND profID=? ";
 
@@ -129,6 +130,25 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
         PreparedStatement statement = connection.prepareStatement(SELECT_STUDENT_BY_ID_OF_PROFESSOR);
         statement.setInt(1,studentID);
         statement.setInt(2,profID);
+        ResultSet resultSet =statement.executeQuery();
+        if (resultSet.next()){
+            return  (new Student(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("age"),
+                    resultSet.getInt("profID"),
+                    resultSet.getString("fName"),
+                    resultSet.getString("lName")
+            ));
+
+        }
+        return  null;
+    }
+    public Student selectStudentBYfNameAndlName (String fName,String lName,int profID) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(SELECT_STUDENT_BY_FNAME_LNAME);
+        statement.setString(1,fName);
+        statement.setString(2,lName);
+        statement.setInt(3,profID);
         ResultSet resultSet =statement.executeQuery();
         if (resultSet.next()){
             return  (new Student(
