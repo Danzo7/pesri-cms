@@ -10,10 +10,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "studentsServlet", value = "/students")
 public class studentsServlet extends HttpServlet {
@@ -64,19 +63,32 @@ public class studentsServlet extends HttpServlet {
             if(request.getParameter("delete")!=null && request.getParameter("id")!=null)
                 professorDao.deleteStudent(Integer.parseInt(request.getParameter("id")),((Professor) session.getAttribute("current")).getId());
             else
-                if(fName!=null&&lName!=null&&age!=null){
+                if(validateInput(fName,lName,age)){
             if(request.getParameter("id")!=null){
                professorDao.updateStudent(new Student(Integer.parseInt(request.getParameter("id")),Integer.parseInt(age),((Professor) session.getAttribute("current")).getId(),fName,lName),((Professor) session.getAttribute("current")).getId());
             } else
             professorDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
                 }
-                else throw new Exception("invalid Data"+request.getParameter("delete"));
+
         } catch (Exception e) {
             e.printStackTrace();
+           // request.setAttribute("modalerror","true");
         }
         //render View
         response.sendRedirect(request.getContextPath() + "/students");
 
     }
+    public static boolean regexChecker(String regex, String valueToCheck){
+        Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+        Matcher regexMatcher= regexPattern.matcher(valueToCheck);
+        return(regexMatcher.matches());
+    }
 
+private boolean validateInput(String fName,String lName,String age) throw Exception{
+    String fNameRegex="^[A-Za-z]{3,30}$";
+        if(fName==null||!regexChecker(fNameRegex,fName)) throw new Exception();
+        if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception();
+        if(age==null||!(Integer.parseInt(age)>17&&Integer.parseInt(age) <=30))  throw new Exception();
+        return true;
+    }
 }

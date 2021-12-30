@@ -48,6 +48,11 @@
                 <input type="password" class="form-control " name="password"  id="passwordInput" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-success">Register</button>
+            <c:if test="${error!=null}">
+                <div class="alert alert-danger" role="alert">
+                   Bad Input !
+                </div>
+            </c:if>
         </form>
     </div>
 </div>
