@@ -49,7 +49,9 @@ public class ProfessorDao {
         statement.executeUpdate();
         return  getProfessorInfoFromDB(professor.getEmail(), professor.getPassword());
     }
-    public boolean updateProfessor( Professor professor) throws SQLException {
+    public boolean updateProfessor( Professor professor,String email,String oldPassword) throws Exception {
+        if(getProfessorInfoFromDB(email,oldPassword)==null) throw new Exception("Wrong Password !");
+
         boolean rowUpdated;
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_PROFESSOR)) {
