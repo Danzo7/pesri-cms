@@ -41,7 +41,7 @@
 
            <c:if test="${error!=null}">
                <div class="alert alert-danger" role="alert">
-                   Wrong password or username!
+                       ${error}
                </div>
            </c:if>
 

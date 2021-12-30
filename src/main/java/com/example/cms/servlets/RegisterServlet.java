@@ -34,40 +34,45 @@ public class RegisterServlet extends HttpServlet {
         String fNameRegex="^[A-Za-z]{3,30}$";
         String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
 
-        if(regexChecker(fNameRegex,fName)
-                && regexChecker(fNameRegex,lName)
-                &&   regexChecker(emailRegex,email)
-                && password.length() > 7 ) {
+        try {
+            if(validateInput(fName,lName,email,password) ) {
 
-            Professor p = null;
-            ProfessorDao professorDao = new ProfessorDao();
-            try {
-                p = professorDao.insertProfessor(new Professor(fName, lName, email, password));
-            } catch (SQLException e) {
-                e.printStackTrace();
+                Professor p = null;
+                ProfessorDao professorDao = new ProfessorDao();
+                try {
+                    p = professorDao.insertProfessor(new Professor(fName, lName, email, password));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    request.setAttribute("errorMessage","Something went wrong!");
+                    request.getRequestDispatcher("register.jsp").forward(request,response);                }
+                //Set cookies
+                HttpSession session = request.getSession();
+                session.setAttribute("current", p);
+                //render View
+                response.sendRedirect(request.getContextPath() + "/students");
             }
-            //Set cookies
-            HttpSession session = request.getSession();
-            session.setAttribute("current", p);
-            //render View
-            response.sendRedirect(request.getContextPath() + "/students");
-        }
-        else {
-            // send label Error
-            request.setAttribute("error","true");
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage",e.getMessage());
             request.getRequestDispatcher("register.jsp").forward(request,response);
         }
+
     }
-    public static boolean regexChecker(String regex, String valueToCheck){
+    boolean regexChecker(String regex, String valueToCheck){
         Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
         Matcher regexMatcher= regexPattern.matcher(valueToCheck);
+        return(regexMatcher.matches());
+    }
 
-        if(regexMatcher.matches()){
-            return  true;
-        }
-        else {
-            return  false;
-        }
+    boolean validateInput(String fName,String lName,String password,String email) throws Exception{
+
+        String fNameRegex="^[A-Za-z]{3,30}$";
+        String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
+        if(fName==null||!regexChecker(fNameRegex,fName)) throw new Exception("invalid first name");
+        if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception("invalid last name");
+        if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address");
+        if(password==null||!(password.length() > 7)) throw new Exception("invalid password");
+        return true;
     }
 
 }

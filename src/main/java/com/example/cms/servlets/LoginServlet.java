@@ -33,32 +33,35 @@ public class LoginServlet extends HttpServlet {
         String password=request.getParameter("password");
         String checked=request.getParameter("rememberCheck");
 
-        String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
-        if(regexChecker(emailRegex,email) && password.length() > 7 ) {
-
-
-//TODO:check if professor exist
-        Professor p =null;
-        ProfessorDao professorDao = new ProfessorDao();
         try {
-         p =  professorDao.getProfessorInfoFromDB(email,password);
-        } catch (SQLException e) {
+            if(validateInput(email,password) ) {
+
+
+    //TODO:check if professor exist
+            Professor p =null;
+            ProfessorDao professorDao = new ProfessorDao();
+            try {
+             p =  professorDao.getProfessorInfoFromDB(email,password);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                request.setAttribute("error","Something went wrong!");
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+            return;
+            }
+            if(p != null){
+                HttpSession session=request.getSession();
+                //TODO:selected professor
+                session.setAttribute("current",p);
+                response.sendRedirect(request.getContextPath() + "/students");
+            }
+            else{
+                request.setAttribute("error","this account does not exist or the password is wrong!");
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+            }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        if(p != null){
-            HttpSession session=request.getSession();
-            //TODO:selected professor
-            session.setAttribute("current",p);
-            response.sendRedirect(request.getContextPath() + "/students");
-        }
-        else{
-            request.setAttribute("error","true");
-            request.getRequestDispatcher("login.jsp").forward(request,response);
-        }
-        }
-        else {
-            // send validation error
-            request.setAttribute("error","true");
+            request.setAttribute("error",e.getMessage());
             request.getRequestDispatcher("login.jsp").forward(request,response);
         }
     }
@@ -66,11 +69,12 @@ public class LoginServlet extends HttpServlet {
         Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
         Matcher regexMatcher= regexPattern.matcher(valueToCheck);
 
-        if(regexMatcher.matches()){
-            return  true;
-        }
-        else {
-            return  false;
-        }
+        return regexMatcher.matches();
+    }
+    boolean validateInput(String email,String password) throws Exception{
+        String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
+        if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address");
+        if(password==null||!(password.length() > 7)) throw new Exception("invalid password");
+        return true;
     }
 }

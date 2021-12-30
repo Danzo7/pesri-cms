@@ -72,13 +72,16 @@ public class studentsServlet extends HttpServlet {
 
         } catch (Exception e) {
             e.printStackTrace();
-           // request.setAttribute("modalerror","true");
+            request.setAttribute("error","true");
+            request.setAttribute("show", e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/students?error");
+return;
         }
         //render View
         response.sendRedirect(request.getContextPath() + "/students");
 
     }
-    public static boolean regexChecker(String regex, String valueToCheck){
+     boolean regexChecker(String regex, String valueToCheck){
         Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
         Matcher regexMatcher= regexPattern.matcher(valueToCheck);
         return(regexMatcher.matches());

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: aymen
@@ -48,9 +49,9 @@
                 <input type="password" class="form-control " name="password"  id="passwordInput" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-success">Register</button>
-            <c:if test="${error!=null}">
+            <c:if test="${errorMessage!=null}">
                 <div class="alert alert-danger" role="alert">
-                   Bad Input !
+                        ${errorMessage}
                 </div>
             </c:if>
         </form>

@@ -65,6 +65,11 @@
                     <label style="display: none">
                         <input name="confirm" type="checkbox"  id="confirm" aria-describedby="confirm" value="true" required disabled>
                     </label>
+                    <c:if test="${error!=null}">
+                        <div class="alert alert-danger" role="alert">
+                                ${error}
+                        </div>
+                    </c:if>
                 </form>
             </c:if>
             </div>
