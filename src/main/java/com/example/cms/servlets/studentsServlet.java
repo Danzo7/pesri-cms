@@ -84,11 +84,11 @@ public class studentsServlet extends HttpServlet {
         return(regexMatcher.matches());
     }
 
-private boolean validateInput(String fName,String lName,String age) throw Exception{
+ boolean validateInput(String fName,String lName,String age) throws Exception{
     String fNameRegex="^[A-Za-z]{3,30}$";
-        if(fName==null||!regexChecker(fNameRegex,fName)) throw new Exception();
-        if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception();
-        if(age==null||!(Integer.parseInt(age)>17&&Integer.parseInt(age) <=30))  throw new Exception();
+        if(fName==null||!regexChecker(fNameRegex,fName)) throw new Exception("invalid first name");
+        if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception("invalid last name");
+        if(age==null||!(Integer.parseInt(age)>17&&Integer.parseInt(age) <=30))  throw new Exception("invalid last age");
         return true;
     }
 }
