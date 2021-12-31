@@ -8,11 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,8 +19,6 @@ public class ProfessorProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session=request.getSession(false);
-        Professor currentProfessor = (Professor) session.getAttribute("current");
         request.getRequestDispatcher("professorProfile.jsp").forward(request,response);
     }
 
