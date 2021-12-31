@@ -41,12 +41,12 @@ private static final String SELECT_STUDENT_BY_ID_OF_PROFESSOR = "select * from s
 
     public StudentDao (){}
 
-    protected Connection getConnection() {
+    protected Connection getConnection() throws SQLException {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
