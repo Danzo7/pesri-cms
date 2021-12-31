@@ -66,16 +66,16 @@ public class studentsServlet extends HttpServlet {
         String lName=request.getParameter("lName");
         String age=request.getParameter("age");
         HttpSession session=request.getSession(false);
-        StudentDao professorDao = new StudentDao();
+        StudentDao studentDao = new StudentDao();
         try {
             if(request.getParameter("delete")!=null && request.getParameter("id")!=null)
-                professorDao.deleteStudent(Integer.parseInt(request.getParameter("id")),((Professor) session.getAttribute("current")).getId());
+                studentDao.deleteStudent(Integer.parseInt(request.getParameter("id")),((Professor) session.getAttribute("current")).getId());
             else
                 if(validateInput(fName,lName,age)){
             if(request.getParameter("id")!=null){
-               professorDao.updateStudent(new Student(Integer.parseInt(request.getParameter("id")),Integer.parseInt(age),((Professor) session.getAttribute("current")).getId(),fName,lName),((Professor) session.getAttribute("current")).getId());
+                studentDao.updateStudent(new Student(Integer.parseInt(request.getParameter("id")),Integer.parseInt(age),((Professor) session.getAttribute("current")).getId(),fName,lName),((Professor) session.getAttribute("current")).getId());
             } else
-            professorDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
+                studentDao.insertStudent(new Student(fName,lName,  Integer.parseInt(age),((Professor) session.getAttribute("current")).getId()));
                 }
 
         } catch (Exception e) {

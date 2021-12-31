@@ -32,16 +32,22 @@
         <form method="post">
             <div class="form-group">
                 <label class="text-light" for="first-name">First name</label>
-                <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" placeholder="Enter your first name">
+                <c:if test="${current!=null}">
+                <input type="text" class="form-control" id="first-name" name="fName" aria-describedby="first-name" value="${current.fName}" >
+                </c:if>
             </div>
             <div class="form-group">
                 <label class="text-light" for="last-name">Last name</label>
-                <input type="text" class="form-control" name="lName"  id="last-name" aria-describedby="first-name" placeholder="Enter your last name">
+                <c:if test="${current!=null}">
+                <input type="text" class="form-control" name="lName"  id="last-name" aria-describedby="first-name" value="${current.lName}" >
+                </c:if>
             </div>
 
             <div class="form-group">
                 <label class="text-light" for="emailInput">Email address</label>
-                <input type="email" class="form-control" name="email"  id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+                <c:if test="${current!=null}">
+                <input type="email" class="form-control" name="email"  id="emailInput" aria-describedby="emailHelp" value="${current.email}" >
+                </c:if>
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">

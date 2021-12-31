@@ -22,6 +22,9 @@ import java.util.regex.Pattern;
 public class ProfessorProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session=request.getSession(false);
+        Professor currentProfessor = (Professor) session.getAttribute("current");
         request.getRequestDispatcher("professorProfile.jsp").forward(request,response);
     }
 
@@ -36,6 +39,7 @@ public class ProfessorProfile extends HttpServlet {
 
         HttpSession session=request.getSession(false);
         Professor currentProfessor =  (Professor) session.getAttribute("current");
+
 
         try {
             if(validateInput(fName,lName,email,oldPassword,newPassword) ) {
@@ -53,6 +57,7 @@ public class ProfessorProfile extends HttpServlet {
                 //Set cookies
                 if(updated)
                 session.setAttribute("current", updatedProfessor);
+
                 //render View
                 response.sendRedirect(request.getContextPath() + "/students");
             }
