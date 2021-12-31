@@ -42,9 +42,8 @@ public class LoginServlet extends HttpServlet {
             ProfessorDao professorDao = new ProfessorDao();
             try {
              p =  professorDao.getProfessorInfoFromDB(email,password);
-
             } catch (SQLException e) {
-               // e.printStackTrace();
+                e.printStackTrace();
                 request.setAttribute("error","Something went wrong!");
                 request.getRequestDispatcher("login.jsp").forward(request,response);
             return;
