@@ -30,12 +30,8 @@ public class RegisterServlet extends HttpServlet {
         String password=request.getParameter("password");
         String fName=request.getParameter("fName");
         String lName=request.getParameter("lName");
-
-        String fNameRegex="^[A-Za-z]{3,30}$";
-        String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
-
         try {
-            if(validateInput(fName,lName,email,password) ) {
+            if(validateInput(fName,lName,password,email) ) {
 
                 Professor p = null;
                 ProfessorDao professorDao = new ProfessorDao();
@@ -61,7 +57,7 @@ public class RegisterServlet extends HttpServlet {
     boolean regexChecker(String regex, String valueToCheck){
         Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
         Matcher regexMatcher= regexPattern.matcher(valueToCheck);
-        return(regexMatcher.matches());
+        return regexMatcher.matches();
     }
 
     boolean validateInput(String fName,String lName,String password,String email) throws Exception{
@@ -70,7 +66,7 @@ public class RegisterServlet extends HttpServlet {
         String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
         if(fName==null||!regexChecker(fNameRegex,fName)) throw new Exception("invalid first name");
         if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception("invalid last name");
-        if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address");
+        if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address "+email);
         if(password==null||!(password.length() > 7)) throw new Exception("invalid password");
         return true;
     }

@@ -38,7 +38,7 @@ public class ProfessorProfile extends HttpServlet {
         try {
             if(validateInput(fName,lName,email,oldPassword,newPassword) ) {
 
-                Professor updatedProfessor = new Professor(currentProfessor.getId(),fName,lName,email,newPassword);
+                Professor updatedProfessor = new Professor(currentProfessor.getId(),fName,lName,email,newPassword.length()>0?newPassword:oldPassword);
                 ProfessorDao professorDao = new ProfessorDao();
                 boolean updated=false ;
                 try {
@@ -76,7 +76,7 @@ public class ProfessorProfile extends HttpServlet {
         if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception("invalid last name");
         if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address");
         if(oldpassword==null||!(oldpassword.length() > 7)) throw new Exception("invalid Old password");
-        if(newpassword==null||!(newpassword.length() > 7)) throw new Exception("invalid New password");
+        if((newpassword.length()!=0)&&(newpassword==null||!(newpassword.length() > 7))) throw new Exception("invalid New password");
         return true;
     }
 
