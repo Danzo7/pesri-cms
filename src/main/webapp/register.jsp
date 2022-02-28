@@ -51,7 +51,7 @@
             <button type="submit" class="btn btn-success">Register</button>
             <c:if test="${errorMessage!=null}">
                 <div class="alert alert-danger" role="alert">
-                        ${errorMessage}
+                    <c:out value="${errorMessage}"/>
                 </div>
             </c:if>
         </form>

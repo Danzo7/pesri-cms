@@ -33,15 +33,16 @@
             <label class="text-light" for="passwordInput" >Password</label>
             <input type="password" name="password" class="form-control " id="passwordInput" placeholder="Password" required>
         </div>
-        <div class=" form-group form-check">
-            <input type="checkbox" class="form-check-input " name="rememberCheck" id="rememberCheck">
-            <label class=" form-check-label text-light" for="rememberCheck">remember me</label>
-        </div>
+<%--        <div class=" form-group form-check">--%>
+<%--            <input type="checkbox" class="form-check-input " name="rememberCheck" id="rememberCheck">--%>
+<%--            <label class=" form-check-label text-light" for="rememberCheck" checked disabled>remember me</label>--%>
+<%--        </div>--%>
         <button type="submit" class="btn btn-primary">login</button>
 
            <c:if test="${error!=null}">
                <div class="alert alert-danger" role="alert">
-                       ${error}
+                   <c:out value="${error}"/>
+
                </div>
            </c:if>
 

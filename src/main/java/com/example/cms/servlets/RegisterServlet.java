@@ -1,6 +1,7 @@
 package com.example.cms.servlets;
 
 import com.example.cms.dao.ProfessorDao;
+import com.example.cms.misc.Helper;
 import com.example.cms.models.Professor;
 
 import javax.servlet.*;
@@ -16,11 +17,10 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session=request.getSession(false);
-        if(session==null ||session.getAttribute("current")==null){
+        if(session==null || Helper.checkProfessorFromCookies(session)==null){
             request.getRequestDispatcher("register.jsp").forward(request,response);}
         else{
             response.sendRedirect(request.getContextPath() + "/students");
-
         }
     }
 
@@ -54,21 +54,17 @@ public class RegisterServlet extends HttpServlet {
         }
 
     }
-    boolean regexChecker(String regex, String valueToCheck){
-        Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
-        Matcher regexMatcher= regexPattern.matcher(valueToCheck);
-        return regexMatcher.matches();
-    }
-
     boolean validateInput(String fName,String lName,String password,String email) throws Exception{
 
         String fNameRegex="^[A-Za-z]{3,30}$";
         String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
-        if(fName==null||!regexChecker(fNameRegex,fName)) throw new Exception("invalid first name");
-        if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception("invalid last name");
-        if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address "+email);
+        if(fName==null|| Helper.regexChecker(fNameRegex, fName)) throw new Exception("invalid first name");
+        if(lName==null|| Helper.regexChecker(fNameRegex, lName)) throw new Exception("invalid last name");
+        if(email==null|| Helper.regexChecker(emailRegex, email)) throw new Exception("invalid Email address "+email);
         if(password==null||!(password.length() > 7)) throw new Exception("invalid password");
         return true;
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.cms.servlets;
 import com.example.cms.dao.ProfessorDao;
+import com.example.cms.misc.Helper;
 import com.example.cms.models.Professor;
 
 import javax.servlet.ServletException;
@@ -10,15 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import javax.servlet.http.*;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 @WebServlet(name = "ProfessorProfile", value = "/profile")
 public class ProfessorProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session=request.getSession(false);
+        Professor currentProfessor = Helper.checkProfessorFromCookies(session);
+        if(currentProfessor==null) {
+            response.sendRedirect(request.getContextPath() + "/logout");
+            return;
+        }
         request.getRequestDispatcher("professorProfile.jsp").forward(request,response);
     }
 
@@ -32,9 +36,11 @@ public class ProfessorProfile extends HttpServlet {
 
 
         HttpSession session=request.getSession(false);
-        Professor currentProfessor =  (Professor) session.getAttribute("current");
-
-
+        Professor currentProfessor = Helper.checkProfessorFromCookies(session);
+        if(currentProfessor==null) {
+            response.sendRedirect(request.getContextPath() + "/logout");
+            return;
+        }
         try {
             if(validateInput(fName,lName,email,oldPassword,newPassword) ) {
 
@@ -50,7 +56,9 @@ public class ProfessorProfile extends HttpServlet {
                     request.getRequestDispatcher("professorProfile.jsp").forward(request,response);                }
                 //Set cookies
                 if(updated)
-                session.setAttribute("current", updatedProfessor);
+                    session.setAttribute("current", updatedProfessor);
+                    session.setAttribute("email", updatedProfessor.getEmail());
+                    session.setAttribute("password", updatedProfessor.getPassword());
 
                 //render View
                 response.sendRedirect(request.getContextPath() + "/students");
@@ -62,21 +70,17 @@ public class ProfessorProfile extends HttpServlet {
         }
 
     }
-    boolean regexChecker(String regex, String valueToCheck){
-        Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
-        Matcher regexMatcher= regexPattern.matcher(valueToCheck);
-        return(regexMatcher.matches());
-    }
+
 
     boolean validateInput(String fName,String lName,String email,String oldpassword,String newpassword) throws Exception{
 
         String fNameRegex="^[A-Za-z]{3,30}$";
         String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
-        if(fName==null||!regexChecker(fNameRegex,fName)) throw new Exception("invalid first name");
-        if(lName==null||!regexChecker(fNameRegex,lName)) throw new Exception("invalid last name");
-        if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address");
-        if(oldpassword==null||!(oldpassword.length() > 7)) throw new Exception("invalid Old password");
-        if(newpassword.length() != 0 && !(newpassword.length() > 7)) throw new Exception("invalid New password");
+        if(fName==null|| Helper.regexChecker(fNameRegex, fName)) throw new Exception("invalid first name");
+        if(lName==null|| Helper.regexChecker(fNameRegex, lName)) throw new Exception("invalid last name");
+        if(email==null|| Helper.regexChecker(emailRegex, email)) throw new Exception("invalid Email address");
+        if(oldpassword==null||!(oldpassword.length() > 7)) throw new Exception("invalid old password");
+        if(newpassword.length() != 0 && !(newpassword.length() > 7)) throw new Exception("invalid new password");
         return true;
     }
 

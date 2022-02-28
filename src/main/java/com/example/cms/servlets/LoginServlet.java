@@ -1,17 +1,14 @@
 package com.example.cms.servlets;
 
 import com.example.cms.dao.ProfessorDao;
-import com.example.cms.dao.StudentDao;
+import com.example.cms.misc.Helper;
 import com.example.cms.models.Professor;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @WebServlet(name = "LoginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
@@ -19,8 +16,9 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String action =request.getServletPath();
         HttpSession session=request.getSession(false);
-        if(session==null ||session.getAttribute("current")==null){
-            request.getRequestDispatcher("login.jsp").forward(request,response);}
+        if(session==null || Helper.checkProfessorFromCookies(session)==null){
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+        }
         else{
         response.sendRedirect(request.getContextPath() + "/students");
 
@@ -52,6 +50,8 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session=request.getSession();
                 //TODO:selected professor
                 session.setAttribute("current",p);
+                session.setAttribute("email",p.getEmail());
+                session.setAttribute("password",p.getPassword());
                 response.sendRedirect(request.getContextPath() + "/students");
             }
             else{
@@ -65,15 +65,9 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request,response);
         }
     }
-    public static boolean regexChecker(String regex, String valueToCheck){
-        Pattern regexPattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
-        Matcher regexMatcher= regexPattern.matcher(valueToCheck);
-
-        return regexMatcher.matches();
-    }
     boolean validateInput(String email,String password) throws Exception{
         String emailRegex="^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$";
-        if(email==null||!regexChecker(emailRegex,email)) throw new Exception("invalid Email address");
+        if(email==null|| Helper.regexChecker(emailRegex, email)) throw new Exception("invalid Email address");
         if(password==null||!(password.length() > 7)) throw new Exception("invalid password");
         return true;
     }

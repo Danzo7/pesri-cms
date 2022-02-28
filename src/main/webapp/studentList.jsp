@@ -98,7 +98,7 @@
             </form></div>
             <c:if test="${error!=null}">
                 <div class="alert alert-danger" style="flex-grow: 1" role="alert">
-                        ${error}
+                    <c:out value="${error}"/>
                 </div>
             </c:if>
             <a class=" btn btn-primary" style="float: right" href="?add">add...</a>

@@ -1,6 +1,8 @@
 package com.example.cms.servlets;
 
+import com.example.cms.dao.ProfessorDao;
 import com.example.cms.dao.StudentDao;
+import com.example.cms.misc.Helper;
 import com.example.cms.models.Professor;
 import com.example.cms.models.Student;
 import com.google.gson.Gson;
@@ -29,7 +31,7 @@ public class DataApiServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session=request.getSession(false);
-        if(session==null ||session.getAttribute("current")==null){
+        if(session==null || Helper.checkProfessorFromCookies(session)==null){
             response.sendRedirect(request.getContextPath() + "/404");
         }
         else {
@@ -37,7 +39,7 @@ public class DataApiServlet extends HttpServlet {
             studentDao = new StudentDao();
             List<Student> list = null;
             try {
-                list = studentDao.selecteAllStudents((Professor) session.getAttribute("current"));
+                list = studentDao.selecteAllStudents(new ProfessorDao().getProfessorInfoFromDB((String)session.getAttribute("email"),(String) session.getAttribute("password")));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
