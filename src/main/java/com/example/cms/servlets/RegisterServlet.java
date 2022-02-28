@@ -37,15 +37,21 @@ public class RegisterServlet extends HttpServlet {
                 ProfessorDao professorDao = new ProfessorDao();
                 try {
                     p = professorDao.insertProfessor(new Professor(fName, lName, email, password));
-                } catch (SQLException e) {
+                    //Set cookies
+                    HttpSession session = request.getSession();
+                    session.setAttribute("current", p);
+                    session.setAttribute("email", p.getEmail());
+                    session.setAttribute("password", p.getPassword());
+
+                    //render View
+                    response.sendRedirect(request.getContextPath() + "/students");
+                }
+                catch (SQLException e) {
                     e.printStackTrace();
                     request.setAttribute("errorMessage","Something went wrong!");
-                    request.getRequestDispatcher("register.jsp").forward(request,response);                }
-                //Set cookies
-                HttpSession session = request.getSession();
-                session.setAttribute("current", p);
-                //render View
-                response.sendRedirect(request.getContextPath() + "/students");
+                    request.getRequestDispatcher("register.jsp").forward(request,response);
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
